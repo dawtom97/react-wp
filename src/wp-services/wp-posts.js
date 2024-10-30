@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import axiosClient from "../utils/axiosClient";
 const getWpPosts = async (limit) => {
   try {
-    const response = await axiosClient.get(`/posts?per_page=${limit}`);
+    const response = await axiosClient.get(`/wp/v2/posts?per_page=${limit}`);
 
     const postsData = response.data;
 
@@ -11,7 +11,7 @@ const getWpPosts = async (limit) => {
         if (post.featured_media) {
           try {
             const mediaResponse = await axiosClient.get(
-              `/media/${post.featured_media}`
+              `/wp/v2/media/${post.featured_media}`
             );
             return {
               ...post,
