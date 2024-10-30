@@ -3,14 +3,15 @@ import { Button, Card, Divider, Typography } from "antd";
 import { dateConverter } from "../../utils/dateConverter";
 
 const { Meta } = Card;
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
 const WpPostCard = ({ post }) => {
   return (
     <Card
-      style={{ width: 300 }}
       cover={
         <img
+          height={270}
+          style={{objectFit:'cover'}}
           alt={post.featuredMediaAlt}
           src={
             post.featuredMedia ??
