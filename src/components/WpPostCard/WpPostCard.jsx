@@ -1,37 +1,41 @@
-import PropTypes from 'prop-types';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Avatar, Card } from 'antd';
+import PropTypes from "prop-types";
+import { Button, Card, Divider, Typography } from "antd";
+import { dateConverter } from "../../utils/dateConverter";
 
 const { Meta } = Card;
+const { Text, Link } = Typography;
 
-const WpPostCard = ({title}) => {
+const WpPostCard = ({ post }) => {
   return (
     <Card
-    style={{ width: 300 }}
-    cover={
-      <img
-        alt="example"
-        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+      style={{ width: 300 }}
+      cover={
+        <img
+          alt={post.featuredMediaAlt}
+          src={
+            post.featuredMedia ??
+            "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+          }
+        />
+      }
+    >
+      <Meta
+        title={post.title.rendered}
+        description={
+          <div dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }} />
+        }
       />
-    }
-    actions={[
-      <SettingOutlined key="setting" />,
-      <EditOutlined key="edit" />,
-      <EllipsisOutlined key="ellipsis" />,
-    ]}
-  >
-    <Meta
-      avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
-      title={title}
-      description="This is the description"
-    />
-  </Card>
-  )
-}
+      <Text italic>Data wpisu {dateConverter(post.date)}</Text>
+      <Divider />
+      <Button color="default" variant="filled">
+        Czytaj dalej
+      </Button>
+    </Card>
+  );
+};
 
 WpPostCard.propTypes = {
-    title: PropTypes.string.isRequired
-}
+  post: PropTypes.object,
+};
 
-
-export default WpPostCard
+export default WpPostCard;

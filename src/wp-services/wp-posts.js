@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import axiosClient from "../utils/axiosClient";
-const getWpPosts = async () => {
+const getWpPosts = async (limit) => {
   try {
-    const response = await axiosClient.get(`/posts`);
+    const response = await axiosClient.get(`/posts?per_page=${limit}`);
 
     const postsData = response.data;
 
@@ -15,15 +15,16 @@ const getWpPosts = async () => {
             );
             return {
               ...post,
+              featuredMediaAlt: mediaResponse.data.alt_text,
               featuredMedia:
                 mediaResponse.data.media_details.sizes.medium.source_url,
             };
           } catch (error) {
             console.log(error);
-            return { ...post, featuredMedia: null };
+            return { ...post, featuredMedia: null, featuredMediaAlt: null };
           }
         } else {
-            return { ...post, featuredMedia: null };
+            return { ...post, featuredMedia: null, featuredMediaAlt: null };
         }
       })
     );
@@ -33,6 +34,6 @@ const getWpPosts = async () => {
     console.log(error);
   }
 };
-export const useGetWpPosts = () => {
-  return useQuery("fetchPosts", () => getWpPosts());
+export const useGetWpPosts = (limit) => {
+  return useQuery("fetchPosts", () => getWpPosts(limit));
 };

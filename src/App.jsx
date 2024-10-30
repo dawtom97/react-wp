@@ -4,14 +4,15 @@ import { useGetWpPosts } from "./wp-services/wp-posts";
 
 
 function App() {
-  const {data:posts, isLoading, isError} = useGetWpPosts();
+  const postsLimit = import.meta.env.VITE_WP_HOMEPAGE_POSTS_LIMIT;
+  const {data:posts, isLoading, isError} = useGetWpPosts(postsLimit);
 
   console.log(posts)
 
   return (
     <div>
 
-        {posts?.map(post => <WpPostCard key={post.id} title={post.title.rendered}/>)}
+        {posts?.map(post => <WpPostCard key={post.id} post={post}/>)}
         
     </div>
   );
